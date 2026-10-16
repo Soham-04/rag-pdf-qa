@@ -1,0 +1,10 @@
+# Compatible version ranges; not a fully tested lockfile. Use Python 3.11.
+streamlit>=1.40,<2
+pypdf>=5,<7
+langchain-core>=1,<2
+langchain-community>=0.4,<0.5
+langchain-text-splitters>=1,<2
+langchain-huggingface>=1,<2
+langchain-ollama>=1,<2
+sentence-transformers>=3,<6
+faiss-cpu>=1.9,<2
