@@ -37,9 +37,8 @@ def build_index(pages, embeddings):
     return FAISS.from_documents(chunks, embeddings), len(chunks)
 
 
-def answer_question(index, question: str, model: str):
+def answer_question(index, question: str, model: str, *, provider="ollama", api_key=None):
     from langchain_core.prompts import ChatPromptTemplate
-    from langchain_ollama import ChatOllama
     if not question.strip():
         raise ValueError('Enter a question.')
     if len(question) > 2000:
@@ -52,6 +51,15 @@ def answer_question(index, question: str, model: str):
          'Cite supporting excerpt numbers like [1]. Be concise. Do not invent facts or citations.'),
         ('human', 'PDF excerpts:\n{context}\n\nQuestion: {question}')
     ])
-    llm = ChatOllama(model=model, base_url='http://localhost:11434', temperature=0, num_ctx=8192, num_predict=512)
+    if provider == 'groq':
+        if not api_key:
+            raise ValueError('Configure GROQ_API_KEY in the hosting secrets.')
+        from langchain_groq import ChatGroq
+        llm = ChatGroq(model=model, api_key=api_key, temperature=0, max_tokens=512, timeout=60, max_retries=1)
+    elif provider == 'ollama':
+        from langchain_ollama import ChatOllama
+        llm = ChatOllama(model=model, base_url='http://localhost:11434', temperature=0, num_ctx=8192, num_predict=512)
+    else:
+        raise ValueError('Unknown model provider.')
     result = (prompt | llm).invoke({'context': context, 'question': question})
     return str(result.content), documents
