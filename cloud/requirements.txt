@@ -1,0 +1,9 @@
+# Cloud-only dependencies. ONNX embeddings avoid installing PyTorch.
+streamlit>=1.40,<2
+pypdf>=5,<7
+langchain-core>=1,<2
+langchain-community>=0.4,<0.5
+langchain-text-splitters>=1,<2
+langchain-groq>=1,<2
+fastembed>=0.7,<1
+faiss-cpu>=1.9,<2
