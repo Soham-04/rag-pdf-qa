@@ -81,11 +81,13 @@ Do not commit virtual environments, private PDFs, model files or secrets.
 
 ## Hosting
 
-This version runs on your computer. Uploading source to GitHub does not host Streamlit. GitHub Pages hosts static content and cannot run this Python backend. An online deployment of this particular version needs a reachable Ollama service; a hosted Streamlit server cannot use your laptop's `localhost`. No online deployment is included. A separate CPU-hosted model or quota-limited free provider can be evaluated for a later hosted version; free capacity is not guaranteed.
+Deploy the online variant at `cloud/app.py` using [the deployment guide](cloud/DEPLOY.md). It uses Streamlit Community Cloud and Groq's quota-limited free tier. Visitors do not need Ollama. Questions and retrieved passages are sent to Groq; PDFs are processed on the hosting server. The online variant uses FastEmbed with a Hugging Face BAAI model; the local variant retains Sentence Transformers and Ollama.
+
+No live deployment is claimed until a public URL is verified.
 
 ## Limitations and privacy
 
-PDFs and their index stay in the local Streamlit session; the app does not intentionally write them to disk. Model files are cached on the computer. Clearing the session removes app references, not guaranteed secure memory erasure. Do not expose this educational app publicly without resource controls and access controls.
+In the local version, PDFs and their index stay in the local Streamlit session; the app does not intentionally write them to disk. Model files are cached on the computer. Clearing the session removes app references, not guaranteed secure memory erasure. Do not expose this educational app publicly without resource controls and access controls.
 
 OCR, robust table extraction, multilingual evaluation and automatic citation verification are not implemented. Similarity search always returns nearest passages even for unrelated questions. The model can hallucinate or follow malicious document instructions despite its prompt; inspect the evidence. No accuracy claim is made.
 
